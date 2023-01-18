@@ -16,18 +16,18 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v3
 
-    - name: [이창원] Configure AWS credentials
+    - name: LCW Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.LCW_AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.LCW_AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-northeast-2
 
-    - name: [이창원] Login to Amazon ECR
+    - name: LCW Login to Amazon ECR
       id: login-ecr1
       uses: aws-actions/amazon-ecr-login@v1
       
-    - name: [이창원] Build, tag, and push docker image to Amazon ECR
+    - name: LCW Build, tag, and push docker image to Amazon ECR
       env: 
         REGISTRY: ${{ steps.login-ecr1.outputs.registry }}
         REPOSITORY: helloworld-was
@@ -36,18 +36,18 @@ jobs:
         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       
-    - name: [이승준] Configure AWS credentials
+    - name: LSJ Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.LSJ_AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.LSJ_AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-northeast-2
 
-    - name: [이승준] Login to Amazon ECR
+    - name: LSJ Login to Amazon ECR
       id: login-ecr2
       uses: aws-actions/amazon-ecr-login@v1
       
-    - name: [이승준] Build, tag, and push docker image to Amazon ECR
+    - name: LSJ Build, tag, and push docker image to Amazon ECR
       env: 
         REGISTRY: ${{ steps.login-ecr2.outputs.registry }}
         REPOSITORY: helloworld-was
@@ -56,18 +56,18 @@ jobs:
         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
       
-    - name: [권광훈] Configure AWS credentials
+    - name: KKH Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.KKH_AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.KKH_AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-northeast-2
 
-    - name: [권광훈] Login to Amazon ECR
+    - name: KKH Login to Amazon ECR
       id: login-ecr3
       uses: aws-actions/amazon-ecr-login@v1
     
-    - name: [권광훈] Build, tag, and push docker image to Amazon ECR
+    - name: KKH Build, tag, and push docker image to Amazon ECR
       env: 
         REGISTRY: ${{ steps.login-ecr3.outputs.registry }}
         REPOSITORY: helloworld-was
