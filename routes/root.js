@@ -20,7 +20,7 @@ module.exports = async function (fastify, opts) {
     })
 
     fastify.post('/', async function(req, reply) {
-        const result = await db.collection('text').insert(req.body)
+        const result = await db.collection('text').insertOne(req.body)
 
         if(result) {
             reply

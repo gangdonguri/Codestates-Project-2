@@ -9,7 +9,7 @@ module.exports = fp(async function (fastify, opts) {
   
   fastify.register(mongodb, {
     forceClose: true,
-    url: 'mongodb://root:example@mongo:27017/?authMechanism=DEFAULT'
+    url: process.env.MONGO_URL
   } )
   
   console.log('mongobd 플러그인 등록 성공')
