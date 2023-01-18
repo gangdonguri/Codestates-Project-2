@@ -8,52 +8,30 @@ on:
 
 jobs:
 
-  build-push:
+  build_push:
 
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    
-    - name: Get tag
-      id: tag
-      uses: WyriHaximus/github-action-get-previous-tag@8a0e045f02c0a3a04e1452df58b90fc7e555e950
-    
-    - name: Set correct environment
-      run: |
-        echo ${{ steps.tag.outputs.tag }}
-        TAG=${{ steps.tag.outputs.tag }}
-        echo "TAG=$TAG" >> "$GITHUB_ENV"
-        
-    - name: Retrieve metadata
-      id: metadata
-      uses: docker/metadata-action@e5622373a38e60fb6d795a4421e56882f2d7a681
-      with:
-        tags: |
-          type=semver,pattern={{major}}.{{minor}}.{{patch}},value=${{ env.TAG }}
-          type=semver,pattern={{major}}.{{minor}},value=${{ env.TAG }}
-          type=semver,pattern={{major}},value=${{ env.TAG }}
-      
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-northeast-2
-    
+
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
-    
+
     - name: Build, tag, and push docker image to Amazon ECR
       env: 
         REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         REPOSITORY: helloworld-was
-        IMAGE_TAG: ${{ steps.metadata.outputs.tags }}
+        IMAGE_TAG: ${{ github.sha }}
       run: |
         docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
         docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-      
