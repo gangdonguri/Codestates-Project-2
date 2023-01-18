@@ -1,7 +1,5 @@
 FROM node:16-alpine
 
-MAINTAINER gangdonguri <rhkdgnsvk2@gmail.com>
-
 WORKDIR /app
 COPY ["package.json", "package-lock.json*", "./"]
 RUN npm install
