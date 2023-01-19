@@ -18,8 +18,9 @@ jobs:
       
     - name: Extrack version name
       id: extrack_version_name
-      run: echo '${{ github.event.head_commit_message }}'
-      run: echo "##[set-output name=version;]$(echo '${{ github.event.head_commit.message }}' | egrep -o '[0-9]{1}\.[0-9]{1}')"
+      run: |
+	echo '${{ github.event.head_commit_message }}'
+        echo "##[set-output name=version;]$(echo '${{ github.event.head_commit.message }}' | egrep -o '[0-9]{1}\.[0-9]{1}')"
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
