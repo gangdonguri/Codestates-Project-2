@@ -1,0 +1,20 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+  was:
+    image: helloworld-was:1.1
+    restart: always
+    ports:
+      - 8080:3000
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:4.4
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
