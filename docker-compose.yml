@@ -2,11 +2,19 @@
 version: '3.1'
 
 services:
-  was:
+  frontend:
+    image: frontend:1.1
+    restart: always
+    ports:
+      - 4000:4000
+
+  api:
     image: helloworld-was:1.1
     restart: always
     ports:
-      - 8080:3000
+      - 3000:3000
+    volumes:
+      - ./:/app
     depends_on:
       - mongo
 
@@ -15,6 +23,8 @@ services:
     restart: always
     ports:
       - 27017:27017
+    volumes:
+      - /data/db:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
